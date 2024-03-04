@@ -59,7 +59,7 @@ namespace CameraDemo
         private void Form1_Load(object sender, EventArgs e)
         {
             _streaming = false;
-            _capture = new Capture();
+            _capture = new Capture(1);
         }
 
         private void streaming(object sender, EventArgs e)
@@ -67,6 +67,11 @@ namespace CameraDemo
             var img = _capture.QueryFrame().ToImage<Bgr, byte>();
             var bmp = img.Bitmap;
             pictureBox2.Image = bmp;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _capture?.Dispose();
         }
     }
 }

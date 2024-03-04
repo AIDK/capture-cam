@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace CameraDemo
@@ -17,8 +18,7 @@ namespace CameraDemo
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (pictureBox2.Image != null)
-                pictureBox1.Image = pictureBox2.Image;
+            pictureBox1.Image = CaptureImage();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -64,14 +64,17 @@ namespace CameraDemo
 
         private void streaming(object sender, EventArgs e)
         {
-            var img = _capture.QueryFrame().ToImage<Bgr, byte>();
-            var bmp = img.Bitmap;
-            pictureBox2.Image = bmp;
+            pictureBox2.Image = CaptureImage();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             _capture?.Dispose();
+        }
+
+        private Bitmap CaptureImage()
+        {
+            return _capture.QueryFrame().ToImage<Bgr, byte>().Bitmap;
         }
     }
 }
